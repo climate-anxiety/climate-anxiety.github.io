@@ -1,0 +1,957 @@
+{
+  "survey": {
+    "title": "Climate Anxiety Assessment Survey",
+    "description": "A branching survey to assess levels and types of climate-related anxiety",
+    "questions": [
+      {
+        "id": "Q1",
+        "type": "scale",
+        "question": "How concerned are you about climate change on a personal level?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "branches": {
+          "1": ["Q2_low"],
+          "2": ["Q2"],
+          "3": ["Q2"],
+          "4": ["Q2"],
+          "5": ["Q2"]
+        }
+      },
+      {
+        "id": "Q2_low",
+        "type": "binary",
+        "question": "Despite low concern, have you experienced any moments of worry or stress specifically about climate-related events (extreme weather, news reports, etc.)?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q1",
+        "parentAnswer": "1",
+        "branches": {
+          "yes": ["Q2"],
+          "no": []
+        }
+      },
+      {
+        "id": "Q2",
+        "type": "binary",
+        "question": "Do you experience anxiety, dread, or persistent worry specifically about climate change or its consequences?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No, I'm concerned but not anxious" }
+        ],
+        "parent": ["Q1", "Q2_low"],
+        "parentAnswer": ["2-5", "yes"],
+        "branches": {
+          "yes": ["Q3"],
+          "no": []
+        }
+      },
+      {
+        "id": "Q3",
+        "type": "multi_select",
+        "question": "Which areas of climate change concern trigger the most anxiety for you? (Select all that apply)",
+        "options": [
+          { "value": "physical_health", "label": "Physical health impacts (heat stress, disease, air quality)" },
+          { "value": "mental_health", "label": "Mental health impacts (eco-anxiety, depression, stress)" },
+          { "value": "economic", "label": "Economic impacts (job loss, financial instability)" },
+          { "value": "environment", "label": "Environmental impacts (ecosystem collapse, species loss)" },
+          { "value": "social", "label": "Social/community impacts (migration, conflict, inequality)" },
+          { "value": "location_specific", "label": "Location-specific impacts (flooding, drought, extreme weather)" }
+        ],
+        "parent": "Q2",
+        "parentAnswer": "yes",
+        "branches": {
+          "physical_health": ["Q3_phys_health"],
+          "mental_health": ["Q3_mental_health"],
+          "economic": ["Q3_economic"],
+          "environment": ["Q3_environment"],
+          "social": ["Q3_social"],
+          "location_specific": ["Q3_location"]
+        }
+      },
+      {
+        "id": "Q3_phys_health",
+        "type": "multi_select",
+        "question": "Which specific physical health impacts concern you most?",
+        "options": [
+          { "value": "heat_stress", "label": "Heat stress and extreme temperatures" },
+          { "value": "mental_performance", "label": "Impact on cognitive function and work performance" },
+          { "value": "sleep", "label": "Sleep disruption" },
+          { "value": "air_quality", "label": "Air quality and respiratory issues" },
+          { "value": "disease", "label": "Spread of climate-related diseases" },
+          { "value": "food_water", "label": "Food and water security" }
+        ],
+        "parent": "Q3",
+        "parentAnswer": "physical_health",
+        "branches": {
+          "mental_performance": ["Q3_phys_mental_perf"],
+          "heat_stress": ["Q3_phys_heat"],
+          "sleep": ["Q3_phys_sleep"],
+          "air_quality": ["Q3_phys_air"],
+          "disease": ["Q3_phys_disease"],
+          "food_water": ["Q3_phys_food"]
+        }
+      },
+      {
+        "id": "Q3_phys_mental_perf",
+        "type": "scale",
+        "question": "How much has extreme heat or climate-related stress affected your mental clarity, focus, or work/school performance?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not at all", "Minimal impact", "Moderate impact", "Significant impact", "Severe impact"]
+        },
+        "parent": "Q3_phys_health",
+        "parentAnswer": "mental_performance",
+        "branches": {}
+      },
+      {
+        "id": "Q3_phys_heat",
+        "type": "scale",
+        "question": "How concerned are you about the direct effects of increasing temperatures on your physical health?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_phys_health",
+        "parentAnswer": "heat_stress",
+        "branches": {}
+      },
+      {
+        "id": "Q3_phys_sleep",
+        "type": "binary",
+        "question": "Have you experienced sleep disruption due to heat waves or climate-related extreme weather events?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_phys_health",
+        "parentAnswer": "sleep",
+        "branches": {
+          "yes": ["Q3_phys_sleep_freq"],
+          "no": []
+        }
+      },
+      {
+        "id": "Q3_phys_sleep_freq",
+        "type": "scale",
+        "question": "How frequently does this happen?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Rarely (a few times a year)", "Occasionally (monthly)", "Regularly (weekly)", "Frequently (several times a week)", "Constantly (nightly)"]
+        },
+        "parent": "Q3_phys_sleep",
+        "parentAnswer": "yes",
+        "branches": {}
+      },
+      {
+        "id": "Q3_phys_air",
+        "type": "binary",
+        "question": "Have you or your family experienced respiratory or health issues linked to air quality degradation from climate change (wildfires, pollution)?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_phys_health",
+        "parentAnswer": "air_quality",
+        "branches": {
+          "yes": ["Q3_phys_air_severity"],
+          "no": []
+        }
+      },
+      {
+        "id": "Q3_phys_air_severity",
+        "type": "scale",
+        "question": "How severe has this impact been?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minor inconvenience", "Occasional discomfort", "Moderate impact on daily life", "Significant health concern", "Life-threatening or disabling"]
+        },
+        "parent": "Q3_phys_air",
+        "parentAnswer": "yes",
+        "branches": {}
+      },
+      {
+        "id": "Q3_phys_disease",
+        "type": "scale",
+        "question": "How worried are you about climate-related disease spread (dengue, malaria, Lyme disease, etc.) affecting you or your community?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not worried", "Slightly worried", "Moderately worried", "Very worried", "Extremely worried"]
+        },
+        "parent": "Q3_phys_health",
+        "parentAnswer": "disease",
+        "branches": {}
+      },
+      {
+        "id": "Q3_phys_food",
+        "type": "binary",
+        "question": "Are you concerned about food or water security in your region due to climate change?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_phys_health",
+        "parentAnswer": "food_water",
+        "branches": {
+          "yes": ["Q3_phys_food_level"],
+          "no": []
+        }
+      },
+      {
+        "id": "Q3_phys_food_level",
+        "type": "scale",
+        "question": "How severely does this concern affect your sense of security?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal concern", "Slight concern", "Moderate concern", "Strong concern", "Severe anxiety"]
+        },
+        "parent": "Q3_phys_food",
+        "parentAnswer": "yes",
+        "branches": {}
+      },
+      {
+        "id": "Q3_mental_health",
+        "type": "multi_select",
+        "question": "How does climate anxiety manifest in your mental health? (Select all that apply)",
+        "options": [
+          { "value": "general_anxiety", "label": "General anxiety or panic attacks about the future" },
+          { "value": "depression", "label": "Sadness or depression related to climate impacts" },
+          { "value": "eco_guilt", "label": "Guilt or shame about personal environmental impact" },
+          { "value": "helplessness", "label": "Feelings of helplessness or powerlessness" },
+          { "value": "anger_frustration", "label": "Anger or frustration at inaction" },
+          { "value": "sleep_issue", "label": "Sleep problems or nightmares about climate scenarios" }
+        ],
+        "parent": "Q3",
+        "parentAnswer": "mental_health",
+        "branches": {
+          "general_anxiety": ["Q3_mental_general_anxiety"],
+          "depression": ["Q3_mental_depression"],
+          "eco_guilt": ["Q3_mental_guilt"],
+          "helplessness": ["Q3_mental_helplessness"],
+          "anger_frustration": ["Q3_mental_anger"],
+          "sleep_issue": ["Q3_mental_sleep"]
+        }
+      },
+      {
+        "id": "Q3_mental_general_anxiety",
+        "type": "scale",
+        "question": "How frequently do you experience anxiety or panic attacks specifically about climate change?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Rarely", "Occasionally (monthly)", "Regularly (weekly)", "Frequently (several times a week)", "Constantly (daily)"]
+        },
+        "parent": "Q3_mental_health",
+        "parentAnswer": "general_anxiety",
+        "branches": {}
+      },
+      {
+        "id": "Q3_mental_depression",
+        "type": "scale",
+        "question": "How much does climate-related sadness or depression affect your daily functioning?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal impact", "Slight impact", "Moderate impact", "Significant impact", "Severe impact on daily life"]
+        },
+        "parent": "Q3_mental_health",
+        "parentAnswer": "depression",
+        "branches": {}
+      },
+      {
+        "id": "Q3_mental_guilt",
+        "type": "scale",
+        "question": "How intense is the guilt or shame you feel about your environmental impact?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal", "Mild", "Moderate", "Strong", "Overwhelming"]
+        },
+        "parent": "Q3_mental_health",
+        "parentAnswer": "eco_guilt",
+        "branches": {}
+      },
+      {
+        "id": "Q3_mental_helplessness",
+        "type": "binary",
+        "question": "Does feeling helpless about climate change affect your motivation to take action?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_mental_health",
+        "parentAnswer": "helplessness",
+        "branches": {}
+      },
+      {
+        "id": "Q3_mental_anger",
+        "type": "scale",
+        "question": "How often do you feel angry or frustrated about climate inaction?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Rarely", "Occasionally", "Regularly", "Frequently", "Constantly"]
+        },
+        "parent": "Q3_mental_health",
+        "parentAnswer": "anger_frustration",
+        "branches": {}
+      },
+      {
+        "id": "Q3_mental_sleep",
+        "type": "binary",
+        "question": "Have climate-related nightmares or sleep problems affected your work or relationships?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_mental_health",
+        "parentAnswer": "sleep_issue",
+        "branches": {}
+      },
+      {
+        "id": "Q3_economic",
+        "type": "multi_select",
+        "question": "Which economic climate impacts concern you most?",
+        "options": [
+          { "value": "job_loss", "label": "Job loss or industry disruption in your sector" },
+          { "value": "insurance", "label": "Rising insurance costs or coverage denial" },
+          { "value": "property", "label": "Property value decline or uninsurability" },
+          { "value": "inflation", "label": "Cost of living increases due to climate impacts" },
+          { "value": "retirement", "label": "Impact on retirement savings and investments" }
+        ],
+        "parent": "Q3",
+        "parentAnswer": "economic",
+        "branches": {
+          "job_loss": ["Q3_econ_job"],
+          "insurance": ["Q3_econ_insurance"],
+          "property": ["Q3_econ_property"],
+          "inflation": ["Q3_econ_inflation"],
+          "retirement": ["Q3_econ_retirement"]
+        }
+      },
+      {
+        "id": "Q3_econ_job",
+        "type": "binary",
+        "question": "Has climate-related industry disruption or job loss directly affected you or someone close to you?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_economic",
+        "parentAnswer": "job_loss",
+        "branches": {}
+      },
+      {
+        "id": "Q3_econ_insurance",
+        "type": "scale",
+        "question": "How much concern does rising insurance costs have on your financial security?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal concern", "Slight concern", "Moderate concern", "Strong concern", "Severe financial anxiety"]
+        },
+        "parent": "Q3_economic",
+        "parentAnswer": "insurance",
+        "branches": {}
+      },
+      {
+        "id": "Q3_econ_property",
+        "type": "binary",
+        "question": "Are you concerned that your property may become uninsurable or lose value due to climate risks?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_economic",
+        "parentAnswer": "property",
+        "branches": {}
+      },
+      {
+        "id": "Q3_econ_inflation",
+        "type": "scale",
+        "question": "How much do rising costs due to climate impacts strain your household budget?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["No strain", "Minimal strain", "Moderate strain", "Significant strain", "Severe financial hardship"]
+        },
+        "parent": "Q3_economic",
+        "parentAnswer": "inflation",
+        "branches": {}
+      },
+      {
+        "id": "Q3_econ_retirement",
+        "type": "scale",
+        "question": "How anxious are you about climate impacts on your long-term retirement security?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_economic",
+        "parentAnswer": "retirement",
+        "branches": {}
+      },
+      {
+        "id": "Q3_environment",
+        "type": "multi_select",
+        "question": "Which environmental impacts trigger the most anxiety for you?",
+        "options": [
+          { "value": "biodiversity", "label": "Species extinction and biodiversity loss" },
+          { "value": "ocean", "label": "Ocean acidification and marine ecosystem collapse" },
+          { "value": "forest", "label": "Deforestation and forest loss" },
+          { "value": "polar", "label": "Arctic melting and polar ice loss" },
+          { "value": "coral", "label": "Coral reef bleaching" }
+        ],
+        "parent": "Q3",
+        "parentAnswer": "environment",
+        "branches": {
+          "biodiversity": ["Q3_env_biodiversity"],
+          "ocean": ["Q3_env_ocean"],
+          "forest": ["Q3_env_forest"],
+          "polar": ["Q3_env_polar"],
+          "coral": ["Q3_env_coral"]
+        }
+      },
+      {
+        "id": "Q3_env_biodiversity",
+        "type": "scale",
+        "question": "How much anxiety does species extinction and biodiversity loss cause you?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal anxiety", "Slight anxiety", "Moderate anxiety", "Strong anxiety", "Severe anxiety"]
+        },
+        "parent": "Q3_environment",
+        "parentAnswer": "biodiversity",
+        "branches": {}
+      },
+      {
+        "id": "Q3_env_ocean",
+        "type": "scale",
+        "question": "How concerned are you about ocean ecosystem collapse and marine life impacts?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_environment",
+        "parentAnswer": "ocean",
+        "branches": {}
+      },
+      {
+        "id": "Q3_env_forest",
+        "type": "scale",
+        "question": "How much does deforestation and forest loss affect your anxiety level?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal impact", "Slight impact", "Moderate impact", "Significant impact", "Severe impact"]
+        },
+        "parent": "Q3_environment",
+        "parentAnswer": "forest",
+        "branches": {}
+      },
+      {
+        "id": "Q3_env_polar",
+        "type": "scale",
+        "question": "How anxious are you about Arctic melting and polar ice loss?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_environment",
+        "parentAnswer": "polar",
+        "branches": {}
+      },
+      {
+        "id": "Q3_env_coral",
+        "type": "scale",
+        "question": "How much concern do you have about coral reef bleaching and marine biodiversity?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal concern", "Slight concern", "Moderate concern", "Strong concern", "Severe concern"]
+        },
+        "parent": "Q3_environment",
+        "parentAnswer": "coral",
+        "branches": {}
+      },
+      {
+        "id": "Q3_social",
+        "type": "multi_select",
+        "question": "Which social/community impacts concern you most?",
+        "options": [
+          { "value": "migration", "label": "Climate migration and displacement" },
+          { "value": "conflict", "label": "Resource conflicts and political instability" },
+          { "value": "inequality", "label": "Widening inequality and global justice issues" },
+          { "value": "indigenous", "label": "Impacts on indigenous communities" },
+          { "value": "infrastructure", "label": "Breakdown of public infrastructure and services" }
+        ],
+        "parent": "Q3",
+        "parentAnswer": "social",
+        "branches": {
+          "migration": ["Q3_social_migration"],
+          "conflict": ["Q3_social_conflict"],
+          "inequality": ["Q3_social_inequality"],
+          "indigenous": ["Q3_social_indigenous"],
+          "infrastructure": ["Q3_social_infrastructure"]
+        }
+      },
+      {
+        "id": "Q3_social_migration",
+        "type": "scale",
+        "question": "How concerned are you about climate-driven migration and displacement?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_social",
+        "parentAnswer": "migration",
+        "branches": {}
+      },
+      {
+        "id": "Q3_social_conflict",
+        "type": "scale",
+        "question": "How anxious are you about resource conflicts and geopolitical instability due to climate change?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_social",
+        "parentAnswer": "conflict",
+        "branches": {}
+      },
+      {
+        "id": "Q3_social_inequality",
+        "type": "scale",
+        "question": "How much does climate justice and global inequality concern affect you?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal concern", "Slight concern", "Moderate concern", "Strong concern", "Severe concern"]
+        },
+        "parent": "Q3_social",
+        "parentAnswer": "inequality",
+        "branches": {}
+      },
+      {
+        "id": "Q3_social_indigenous",
+        "type": "scale",
+        "question": "How concerned are you about climate impacts on indigenous communities?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_social",
+        "parentAnswer": "indigenous",
+        "branches": {}
+      },
+      {
+        "id": "Q3_social_infrastructure",
+        "type": "scale",
+        "question": "How anxious are you about the breakdown of public services and infrastructure?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_social",
+        "parentAnswer": "infrastructure",
+        "branches": {}
+      },
+      {
+        "id": "Q3_location",
+        "type": "single_select",
+        "question": "What is your geographic region or climate vulnerability?",
+        "options": [
+          { "value": "coastal", "label": "Coastal area (vulnerable to sea level rise, flooding)" },
+          { "value": "low_lying", "label": "Low-lying/island nation" },
+          { "value": "drought", "label": "Drought-prone or arid region" },
+          { "value": "hurricane", "label": "Hurricane/typhoon/tropical cyclone prone" },
+          { "value": "flood", "label": "Flood-prone region (rivers, monsoon areas)" },
+          { "value": "urban", "label": "Urban area (heat island effect)" },
+          { "value": "developing", "label": "Developing/low-income region with limited adaptation resources" },
+          { "value": "multiple", "label": "Multiple vulnerabilities" }
+        ],
+        "parent": "Q3",
+        "parentAnswer": "location_specific",
+        "branches": {
+          "coastal": ["Q3_coastal"],
+          "low_lying": ["Q3_low_lying"],
+          "drought": ["Q3_drought"],
+          "hurricane": ["Q3_hurricane"],
+          "flood": ["Q3_flood"],
+          "urban": ["Q3_urban"],
+          "developing": ["Q3_developing"],
+          "multiple": ["Q3_multiple"]
+        }
+      },
+      {
+        "id": "Q3_coastal",
+        "type": "multi_select",
+        "question": "Which coastal climate impacts worry you most? (Select all that apply)",
+        "options": [
+          { "value": "sea_level", "label": "Sea level rise threatening your community" },
+          { "value": "flooding", "label": "Increased coastal flooding and storm surge" },
+          { "value": "property", "label": "Your property or home becoming uninhabitable" },
+          { "value": "relocation", "label": "Forced relocation in future" },
+          { "value": "saltwater", "label": "Saltwater intrusion into freshwater/agricultural areas" }
+        ],
+        "parent": "Q3_location",
+        "parentAnswer": "coastal",
+        "branches": {
+          "sea_level": ["Q3_coastal_sea_level"],
+          "flooding": ["Q3_coastal_flooding"],
+          "property": ["Q3_coastal_property"],
+          "relocation": ["Q3_coastal_relocation"],
+          "saltwater": ["Q3_coastal_saltwater"]
+        }
+      },
+      {
+        "id": "Q3_coastal_sea_level",
+        "type": "scale",
+        "question": "How much anxiety does sea level rise cause you personally?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal anxiety", "Slight anxiety", "Moderate anxiety", "Strong anxiety", "Severe anxiety"]
+        },
+        "parent": "Q3_coastal",
+        "parentAnswer": "sea_level",
+        "branches": {}
+      },
+      {
+        "id": "Q3_coastal_flooding",
+        "type": "binary",
+        "question": "Have you or your family already experienced increased coastal flooding or storm surge?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_coastal",
+        "parentAnswer": "flooding",
+        "branches": {}
+      },
+      {
+        "id": "Q3_coastal_property",
+        "type": "scale",
+        "question": "How concerned are you about your property becoming unlivable or losing value?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_coastal",
+        "parentAnswer": "property",
+        "branches": {}
+      },
+      {
+        "id": "Q3_coastal_relocation",
+        "type": "scale",
+        "question": "How anxious are you about possibly having to relocate in the future?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_coastal",
+        "parentAnswer": "relocation",
+        "branches": {}
+      },
+      {
+        "id": "Q3_coastal_saltwater",
+        "type": "scale",
+        "question": "How concerned are you about saltwater intrusion affecting agriculture or drinking water?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_coastal",
+        "parentAnswer": "saltwater",
+        "branches": {}
+      },
+      {
+        "id": "Q3_low_lying",
+        "type": "scale",
+        "question": "How anxious are you about existential threats to your country/territory from climate change?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_location",
+        "parentAnswer": "low_lying",
+        "branches": {}
+      },
+      {
+        "id": "Q3_drought",
+        "type": "multi_select",
+        "question": "Which drought-related impacts concern you most? (Select all that apply)",
+        "options": [
+          { "value": "water_supply", "label": "Drying up of water supply for drinking/irrigation" },
+          { "value": "agriculture", "label": "Crop failure and agricultural collapse" },
+          { "value": "wildfire", "label": "Increased wildfire risk to your area" },
+          { "value": "livelihood", "label": "Threat to your livelihood (farming, tourism, etc.)" },
+          { "value": "migration", "label": "Environmental migration from your region" }
+        ],
+        "parent": "Q3_location",
+        "parentAnswer": "drought",
+        "branches": {
+          "water_supply": ["Q3_drought_water"],
+          "agriculture": ["Q3_drought_agriculture"],
+          "wildfire": ["Q3_drought_wildfire"],
+          "livelihood": ["Q3_drought_livelihood"],
+          "migration": ["Q3_drought_migration"]
+        }
+      },
+      {
+        "id": "Q3_drought_water",
+        "type": "scale",
+        "question": "How anxious are you about water supply security in your region?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_drought",
+        "parentAnswer": "water_supply",
+        "branches": {}
+      },
+      {
+        "id": "Q3_drought_agriculture",
+        "type": "scale",
+        "question": "How concerned are you about agricultural failure and food security?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_drought",
+        "parentAnswer": "agriculture",
+        "branches": {}
+      },
+      {
+        "id": "Q3_drought_wildfire",
+        "type": "binary",
+        "question": "Have you or someone you know been directly affected by wildfire due to drought conditions?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_drought",
+        "parentAnswer": "wildfire",
+        "branches": {}
+      },
+      {
+        "id": "Q3_drought_livelihood",
+        "type": "scale",
+        "question": "How threatened is your livelihood by drought and water scarcity?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not threatened", "Slightly threatened", "Moderately threatened", "Significantly threatened", "Severely threatened"]
+        },
+        "parent": "Q3_drought",
+        "parentAnswer": "livelihood",
+        "branches": {}
+      },
+      {
+        "id": "Q3_drought_migration",
+        "type": "scale",
+        "question": "How concerned are you about environmental migration out of your region?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_drought",
+        "parentAnswer": "migration",
+        "branches": {}
+      },
+      {
+        "id": "Q3_hurricane",
+        "type": "scale",
+        "question": "How has the increased frequency or intensity of hurricanes/cyclones affected your anxiety level?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not affected", "Slightly affected", "Moderately affected", "Significantly affected", "Severely affected"]
+        },
+        "parent": "Q3_location",
+        "parentAnswer": "hurricane",
+        "branches": {
+          "3": ["Q3_hurricane_impact"],
+          "4": ["Q3_hurricane_impact"],
+          "5": ["Q3_hurricane_impact"]
+        }
+      },
+      {
+        "id": "Q3_hurricane_impact",
+        "type": "binary",
+        "question": "Have you experienced property damage, displacement, or loss due to extreme weather events?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_hurricane",
+        "parentAnswer": ["3", "4", "5"],
+        "branches": {}
+      },
+      {
+        "id": "Q3_flood",
+        "type": "scale",
+        "question": "How worried are you about increased flooding in your region?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not worried", "Slightly worried", "Moderately worried", "Very worried", "Extremely worried"]
+        },
+        "parent": "Q3_location",
+        "parentAnswer": "flood",
+        "branches": {
+          "4": ["Q3_flood_experience"],
+          "5": ["Q3_flood_experience"]
+        }
+      },
+      {
+        "id": "Q3_flood_experience",
+        "type": "binary",
+        "question": "Have you or your family experienced flooding that affected your home or safety?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_flood",
+        "parentAnswer": ["4", "5"],
+        "branches": {}
+      },
+      {
+        "id": "Q3_urban",
+        "type": "multi_select",
+        "question": "Which urban climate impacts concern you most? (Select all that apply)",
+        "options": [
+          { "value": "heat_island", "label": "Urban heat island effect and extreme heat" },
+          { "value": "air_pollution", "label": "Worsening air pollution in urban areas" },
+          { "value": "infrastructure", "label": "Strain on city infrastructure and services" },
+          { "value": "displacement", "label": "Forced relocation or gentrification related to climate adaptation" },
+          { "value": "access", "label": "Unequal access to climate resources (cooling centers, clean air, etc.)" }
+        ],
+        "parent": "Q3_location",
+        "parentAnswer": "urban",
+        "branches": {
+          "heat_island": ["Q3_urban_heat"],
+          "air_pollution": ["Q3_urban_air"],
+          "infrastructure": ["Q3_urban_infrastructure"],
+          "displacement": ["Q3_urban_displacement"],
+          "access": ["Q3_urban_access"]
+        }
+      },
+      {
+        "id": "Q3_urban_heat",
+        "type": "scale",
+        "question": "How much does urban heat anxiety affect your daily life and well-being?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Minimal impact", "Slight impact", "Moderate impact", "Significant impact", "Severe impact"]
+        },
+        "parent": "Q3_urban",
+        "parentAnswer": "heat_island",
+        "branches": {}
+      },
+      {
+        "id": "Q3_urban_air",
+        "type": "binary",
+        "question": "Do you or your family suffer from air quality-related health issues in your city?",
+        "options": [
+          { "value": "yes", "label": "Yes" },
+          { "value": "no", "label": "No" }
+        ],
+        "parent": "Q3_urban",
+        "parentAnswer": "air_pollution",
+        "branches": {}
+      },
+      {
+        "id": "Q3_urban_infrastructure",
+        "type": "scale",
+        "question": "How concerned are you about your city's infrastructure failing under climate stress?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_urban",
+        "parentAnswer": "infrastructure",
+        "branches": {}
+      },
+      {
+        "id": "Q3_urban_displacement",
+        "type": "scale",
+        "question": "How anxious are you about displacement or gentrification related to climate adaptation?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_urban",
+        "parentAnswer": "displacement",
+        "branches": {}
+      },
+      {
+        "id": "Q3_urban_access",
+        "type": "scale",
+        "question": "How concerned are you about unequal access to climate resources in your city?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not concerned", "Slightly concerned", "Moderately concerned", "Very concerned", "Extremely concerned"]
+        },
+        "parent": "Q3_urban",
+        "parentAnswer": "access",
+        "branches": {}
+      },
+      {
+        "id": "Q3_developing",
+        "type": "scale",
+        "question": "How anxious are you about your region's ability to adapt to and recover from climate impacts?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Not anxious", "Slightly anxious", "Moderately anxious", "Very anxious", "Extremely anxious"]
+        },
+        "parent": "Q3_location",
+        "parentAnswer": "developing",
+        "branches": {}
+      },
+      {
+        "id": "Q3_multiple",
+        "type": "scale",
+        "question": "Given multiple climate vulnerabilities in your region, how would you rate your overall climate anxiety?",
+        "scale": {
+          "min": 1,
+          "max": 5,
+          "labels": ["Low", "Mild", "Moderate", "High", "Severe"]
+        },
+        "parent": "Q3_location",
+        "parentAnswer": "multiple",
+        "branches": {}
+      }
+    ]
+  }
+}

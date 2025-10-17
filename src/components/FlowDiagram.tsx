@@ -61,7 +61,7 @@ const customNodeTypes = {
 };
 
 export const FlowDiagram: React.FC = () => {
-  const { state, navigateToQuestion, answerQuestion } = useSurveyContext();
+  const { state, navigateToQuestion } = useSurveyContext();
 
   const generateFlowData = useCallback(() => {
     console.log('Generating flow data:', {

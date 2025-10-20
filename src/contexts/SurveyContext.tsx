@@ -168,6 +168,8 @@ interface SurveyContextType {
   loadSurvey: () => void;
   canGoBack: boolean;
   goBack: () => void;
+  startSurvey: () => void; // new
+  hasStarted: boolean; // new
 }
 
 const SurveyContext = createContext<SurveyContextType | null>(null);
@@ -203,24 +205,41 @@ export const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
           dispatch({ type: 'SET_CURRENT_QUESTION', payload: activePath.currentQuestionId });
         }
         dispatch({ type: 'SET_COMPLETED', payload: existingData.isCompleted });
-      } else {
-        // Start new survey
-        const firstQuestionId = survey.questions[0]?.id;
-        if (firstQuestionId) {
-          const initialPath: UserPath = {
-            pathId: 'path_1',
-            responses: {},
-            isActive: true,
-            currentQuestionId: firstQuestionId,
-            createdAt: new Date().toISOString()
-          };
-          dispatch({ type: 'SET_PATHS', payload: [initialPath] });
-          dispatch({ type: 'SET_CURRENT_QUESTION', payload: firstQuestionId });
-        }
       }
+      // else: do not auto-start; wait for explicit startSurvey()
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: 'Failed to load survey' });
     }
+  };
+
+  const startSurvey = () => {
+    if (!state.surveyData) return;
+    const firstQuestionId = state.surveyData.questions[0]?.id;
+    if (!firstQuestionId) return;
+
+    // initialize a fresh active path
+    const initialPath: UserPath = {
+      pathId: 'path_1',
+      responses: {},
+      isActive: true,
+      currentQuestionId: firstQuestionId,
+      createdAt: new Date().toISOString()
+    };
+    dispatch({ type: 'SET_PATHS', payload: [initialPath] });
+    dispatch({ type: 'SET_CURRENT_QUESTION', payload: firstQuestionId });
+
+    // persist initial survey data
+    const surveyDataToSave: LocalSurveyData = {
+      sessionId: LocalStorageManager.getSessionId(),
+      surveyId: 'climate_anxiety_survey',
+      startedAt: new Date().toISOString(),
+      lastUpdated: new Date().toISOString(),
+      currentPaths: [initialPath],
+      completedPaths: [],
+      isCompleted: false,
+      version: '1.0.0'
+    };
+    LocalStorageManager.saveSurveyData(surveyDataToSave);
   };
 
   const answerQuestion = (questionId: string, answers: string[], customAnswers?: string[]) => {
@@ -240,20 +259,7 @@ export const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
   const clearSurvey = () => {
     LocalStorageManager.clearSurveyData();
     dispatch({ type: 'CLEAR_SURVEY' });
-    
-    // Reset to first question
-    if (state.surveyData && state.surveyData.questions.length > 0) {
-      const initialPath: UserPath = {
-        pathId: 'path_1',
-        responses: {},
-        isActive: true,
-        currentQuestionId: state.surveyData.questions[0].id,
-        createdAt: new Date().toISOString()
-      };
-      dispatch({ type: 'SET_PATHS', payload: [initialPath] });
-      dispatch({ type: 'SET_CURRENT_QUESTION', payload: state.surveyData.questions[0].id });
-      dispatch({ type: 'SET_COMPLETED', payload: false });
-    }
+    // do not auto-start here; keep waiting for explicit start
   };
 
   const canGoBack = state.currentPaths.some(path => 
@@ -301,6 +307,8 @@ export const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
     }
   }, [state]);
 
+  const hasStarted = state.currentPaths.some(p => p.isActive);
+
   const contextValue: SurveyContextType = {
     state,
     answerQuestion,
@@ -308,7 +316,9 @@ export const SurveyProvider: React.FC<SurveyProviderProps> = ({ children }) => {
     clearSurvey,
     loadSurvey,
     canGoBack,
-    goBack
+    goBack,
+    startSurvey,
+    hasStarted
   };
 
   return (

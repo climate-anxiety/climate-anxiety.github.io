@@ -19,18 +19,18 @@ export const BinaryQuestion: React.FC<BinaryQuestionProps> = ({
       <h2 className="text-lg font-semibold text-gray-100">
         {question.question}
       </h2>
-      <div className="grid gap-2">
+      <div className="flex flex-row gap-2 flex-wrap">
         {question.options.map((option) => (
           <button
             key={option.value}
             onClick={() => onAnswer([option.value])}
-            className={`p-4 rounded-lg border-2 text-left transition-all ${
+            className={`p-4 rounded-lg border-2 text-left transition-all flex-1 min-w-[120px] max-w-[300px] ${
               currentAnswer?.[0] === option.value
                 ? 'border-climate-teal-500 bg-climate-teal-900 text-climate-teal-100'
                 : 'border-gray-700 hover:border-gray-600 bg-gray-800 hover:bg-gray-700'
             }`}
           >
-            <span className="text-gray-100 font-medium">{option.label}</span>
+            <span className="text-gray-100 font-medium text-sm leading-relaxed break-words">{option.label}</span>
           </button>
         ))}
       </div>

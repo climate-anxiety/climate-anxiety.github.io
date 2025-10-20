@@ -22,19 +22,19 @@ export const ScaleQuestion: React.FC<ScaleQuestionProps> = ({
       <h2 className="text-lg font-semibold text-gray-100">
         {question.question}
       </h2>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2 justify-center">
         {scaleValues.map((value, index) => (
           <button
             key={value}
             onClick={() => onAnswer([value.toString()])}
-            className={`px-4 py-3 rounded-lg border-2 transition-all min-w-[80px] ${
+            className={`px-4 py-3 rounded-lg border-2 transition-all min-w-[80px] max-w-[120px] flex-1 ${
               currentAnswer?.[0] === value.toString()
                 ? 'border-climate-teal-500 bg-climate-teal-900 text-climate-teal-100'
                 : 'border-gray-700 hover:border-gray-600 bg-gray-800 hover:bg-gray-700'
             }`}
           >
             <div className="text-sm font-medium text-gray-100">{value}</div>
-            <div className="text-xs text-gray-300 mt-1">{labels[index]}</div>
+            <div className="text-xs text-gray-300 mt-1 break-words">{labels[index]}</div>
           </button>
         ))}
       </div>

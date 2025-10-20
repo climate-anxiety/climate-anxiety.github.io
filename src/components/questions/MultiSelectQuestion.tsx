@@ -38,18 +38,20 @@ export const MultiSelectQuestion: React.FC<MultiSelectQuestionProps> = ({
       <h2 className="text-lg font-semibold text-gray-100">
         {question.question}
       </h2>
-      <div className="grid gap-2">
-        {question.options.map((option) => (
-          <label key={option.value} className="flex items-center space-x-3 p-3 rounded-lg border border-gray-700 hover:border-gray-600 cursor-pointer bg-gray-800">
-            <input
-              type="checkbox"
-              checked={currentAnswers.includes(option.value)}
-              onChange={(e) => handleOptionToggle(option.value, e.target.checked)}
-              className="w-4 h-4 text-climate-teal-600 border-gray-600 rounded focus:ring-climate-teal-500 bg-gray-900"
-            />
-            <span className="text-gray-100 font-medium">{option.label}</span>
-          </label>
-        ))}
+      <div className="space-y-4">
+        <div className="flex flex-row gap-2 flex-wrap">
+          {question.options.map((option) => (
+            <label key={option.value} className="flex items-start space-x-3 p-3 rounded-lg border border-gray-700 hover:border-gray-600 cursor-pointer bg-gray-800 flex-1 min-w-[120px] max-w-[300px]">
+              <input
+                type="checkbox"
+                checked={currentAnswers.includes(option.value)}
+                onChange={(e) => handleOptionToggle(option.value, e.target.checked)}
+                className="w-4 h-4 text-climate-teal-600 border-gray-600 rounded focus:ring-climate-teal-500 bg-gray-900 mt-1 flex-shrink-0"
+              />
+              <span className="text-gray-100 font-medium text-sm leading-relaxed break-words">{option.label}</span>
+            </label>
+          ))}
+        </div>
         
         {question.allowCustom && (
           <div className="mt-4 space-y-2 p-3 border border-gray-700 rounded-lg bg-gray-800">
